@@ -1,0 +1,199 @@
+<% layout("/layouts/boilerplate") %>
+<body>
+    <% if (success && success.length) { %>
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <%= success %>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    <% } %>
+    <% if (error && error.length) { %>
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <%= error %>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+<% } %>
+
+   <style>
+        .filters-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        #filters {
+            display: flex;
+            overflow-x: hidden;  
+            flex-wrap: nowrap;
+            scroll-behavior: smooth;
+            width: 100%;
+            align-items: center;
+        }
+
+        .filter {
+            text-align: center;
+            margin-right: 2rem;
+            margin-top: 2rem;
+            scroll-snap-align: start;
+            opacity: 0.7;
+        }
+
+        .filter:hover {
+            opacity: 1;
+            cursor: pointer;
+        }
+
+        .filter p {
+            font-size: 0.8rem;
+        }
+
+        .active {
+            border-bottom: 2px solid black;
+            margin-top: 0px;
+        }
+
+        #scrollRightBtn {
+            margin-left: 1rem;
+            margin-right: 0rem;
+            background-color: white;
+            color: #333;
+            border: none;
+            padding: 0.5rem 1rem 0.5rem 0.5rem;
+            cursor: pointer;
+            font-size: 2rem;
+            border-radius: 4px;
+        }
+
+        #scrollLeftBtn {
+            margin-right: 1rem;
+            margin-left: 0rem;
+            background-color: white;
+            color: #333;
+            border: none;
+            padding: 0.5rem 0.5rem 0.5rem 1rem;
+            cursor: pointer;
+            font-size: 2rem;
+            border-radius: 4px;
+        }
+
+        .tax-info {
+            display: none;
+        }
+
+        .tax-toggle {
+            border: 1px solid black;
+            width: 230px;
+            border-radius: 1rem;
+            height: 3.25rem;
+            padding: 1rem;
+            margin-left: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .form-check-label {
+            text-align: center;
+        }
+    </style>
+    <div class="filters-container">
+        <button id="scrollLeftBtn" class="scroll-btn" style="display: none;">&laquo;</button>
+        <div id="filters">
+            <div class="filter active" data-filter="All">
+                <div><i class="fa-solid fa-globe"></i></div>
+                <p>All</p>
+            </div>
+            <div class="filter" data-filter="Trending">
+                <div><i class="fa-solid fa-fire"></i></div>
+                <p>Trending</p>
+            </div>
+            <div class="filter" data-filter="Rooms">
+                <div><i class="fa-solid fa-bed"></i></div>
+                <p>Rooms</p>
+            </div>
+            <div class="filter" data-filter="Iconic Cities">
+                <div><i class="fa-solid fa-mountain-city"></i></div>
+                <p>Cities</p>
+            </div>
+            <div class="filter" data-filter="Mountains">
+                <div><i class="fa-solid fa-mountain"></i></div>
+                <p>Mountains</p>
+            </div>
+            <div class="filter" data-filter="Castles">
+                <div><i class="fa-brands fa-fort-awesome"></i></div>
+                <p>Castles</p>
+            </div>
+            <div class="filter" data-filter="Amazing pools">
+                <div><i class="fa-solid fa-person-swimming"></i></div>
+                <p>Pools</p>
+            </div>
+            <div class="filter" data-filter="Camping">
+                <div><i class="fa-solid fa-campground"></i></div>
+                <p>Camping</p>
+            </div>
+            <div class="filter" data-filter="Farms">
+                <div><i class="fa-solid fa-cow"></i></div>
+                <p>Farms</p>
+            </div>
+            <div class="filter" data-filter="Arctic">
+                <div><i class="fa-regular fa-snowflake"></i></div>
+                <p>Arctic</p>
+            </div>
+            <div class="filter" data-filter="Domes">
+                <div><i class="fa-solid fa-igloo"></i></div>
+                <p>Domes</p>
+            </div>
+            <div class="filter" data-filter="Boats">
+                <div><i class="fa-solid fa-ship"></i></div>
+                <p>Boats</p>
+            </div>
+            <div class="filter" data-filter="Beach">
+                <div><i class="fa-solid fa-water"></i></div>
+                <p>Beach</p>
+            </div>
+        </div>
+        <button id="scrollRightBtn" class="scroll-btn" style="display: none;"> &raquo;</button>
+        <div class="tax-toggle">
+            <div class="form-check-reverse form-switch">
+                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+                <label class="form-check-label" for="flexSwitchCheckDefault"></label> Total after taxes
+              </div>              
+        </div>
+    </div>
+
+   
+    <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1">
+        <% for(list of allListings) { %>
+            <a href="/listings/<%= list.id %>" class="listing-link">
+                <div class="card col listing-card" style="width: 18rem;">
+                    <img src="<%= list.image.url %>" class="card-img-top" alt="..." style="height: 20rem;">
+                    <div class="card-img-overlay"></div>
+                    <div class="card-body">
+                      <p class="card-text" style="color:black;">
+                        <b><%= list.title %></b><br>
+                        &#8377 <%= list.price.toLocaleString("en-IN") %> /night
+                        <i class="tax-info"> &nbsp; &nbsp; +18% GST (Rs. &nbsp<b><%=list.price*18/100 +list.price  %></b>)</i>
+                      </p>
+                    </div>
+                </div>
+            </a>
+        <% } %>
+    </div>
+
+
+    <script>
+        // Existing tax toggle code...
+        let taxSwitch = document.getElementById("flexSwitchCheckDefault");
+        taxSwitch.addEventListener("click", () => {
+            let taxInfo = document.getElementsByClassName("tax-info");
+            for(let info of taxInfo){
+                if(info.style.display !== "inline"){
+                    info.style.display = "inline";
+                }
+                else{
+                    info.style.display = "none";
+                }
+            }
+        });
+    </script> 
+
+</body>
