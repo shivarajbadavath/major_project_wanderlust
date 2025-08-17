@@ -106,9 +106,9 @@ app.use("/listings/:id/reviews", reviewRouter);
 app.use("/", userRouter);
 
 // Root route (optional for testing)
-app.get("/", (req, res) => {
-    res.send("🚀 Wanderlust App is Running!");
-});
+// app.get("/", (req, res) => {
+//     res.send("🚀 Wanderlust App is Running!");
+// });
 
 // 404 Error
 app.all("*", (req, res, next) => {
