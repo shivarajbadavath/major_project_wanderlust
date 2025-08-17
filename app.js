@@ -23,6 +23,8 @@ const ExpressError = require("./utils/ExpressError.js");
 const passport=require('passport')
 const LocalStrategy=require('passport-local')
 const User=require("./models/user.js")
+
+const port = process.env.PORT || 3000;
 // Database connection
 main().then(() => {
     console.log("db is connected");
@@ -53,9 +55,10 @@ const store = MongoStore.create({
     touchAfter: 24 * 3600,
 });
 
-store.on("error", () => {
-    console.log("error on MONGO SESSION STORE", err);
+store.on("error", (err) => {
+    console.log("Error in MONGO SESSION STORE", err);
 });
+
 
 // Session configuration
 const sessionOptions = {
@@ -119,6 +122,6 @@ app.use((err, req, res, next) => {
     res.status(statusCode).render("error.ejs", { message });
 });
 
-app.listen(3000, () => {
-    console.log("listening to 3000");
+app.listen(port, () => {
+    console.log(`App is running on port ${port}`);
 });
